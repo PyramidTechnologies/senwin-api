@@ -1,0 +1,16 @@
+emit:
+  - "@typespec/openapi3"
+  - "@typespec/http-client-csharp"
+  - "@typespec/http-client-js"
+  - "@typespec/http-client-python"
+options:
+  "@typespec/openapi3":
+    emitter-output-dir: "{output-dir}/schema"
+    openapi-versions:
+      - 3.1.0
+  "@typespec/http-client-csharp":
+    emitter-output-dir: "{output-dir}/clients/csharp"
+  "@typespec/http-client-js":
+    emitter-output-dir: "{output-dir}/clients/js"
+  "@typespec/http-client-python":
+    emitter-output-dir: "{output-dir}/clients/python"

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="2395ccde">
+        <description>Created after removal of "/v1/devices/{deviceId} POST" from API Reference</description>
+        <accepts>v1_devices_deviceId_POST.html</accepts>
+    </rule>
+    <rule id="483a875">
+        <description>Created after removal of "ForbiddenError" from API Reference</description>
+        <accepts>ForbiddenError.html</accepts>
+    </rule>
+</rules>
