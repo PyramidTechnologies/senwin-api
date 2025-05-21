@@ -1101,6 +1101,10 @@ components:
           format: int64
         serial_number:
           type: string
+          minLength: 8
+          maxLength: 32
+          description: Serial number of the Sentry dongle licensing this kiosk
+          example: '80842C0D'
         status:
           $ref: '#/components/schemas/DeviceStatus'
         last_seen:
@@ -1108,10 +1112,14 @@ components:
           format: date-time
         app_version:
           type: string
+          description: Current SenWin version installed on the kiosk (semver)
+          example: v1.2.1
         status_message:
           type: string
+          example: 'Error: dispenser jammed with code CX-18'
         nickname:
           type: string
+          example: 'Gas Station #1'
         cassettes:
           type: array
           items:
@@ -1289,7 +1297,7 @@ components:
         amount:
           type: integer
           format: int32
-          description: Amount the ticket is worth, in cents
+          description: 'Amount the ticket is worth, in cents. ($1.00 -> 100)'
           example: 2500
         time_in:
           type: string
