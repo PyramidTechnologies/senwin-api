@@ -1,3 +1,3 @@
 #  Fleet
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="Fleet"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="Fleet"></api-schema>

@@ -2,4 +2,4 @@
 
 Get redemptions from the entire fleet
 
-<api-endpoint openapi-path="../../../tsp-output/schema/openapi.yaml" method="GET" endpoint="/v1/fleets/{fleetId}/redemptions"></api-endpoint>
+<api-endpoint openapi-path="../../openapi.yaml" method="GET" endpoint="/v1/fleets/{fleetId}/redemptions"></api-endpoint>

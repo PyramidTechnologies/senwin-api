@@ -1,3 +1,3 @@
 #  CommandResponse
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="CommandResponse"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="CommandResponse"></api-schema>

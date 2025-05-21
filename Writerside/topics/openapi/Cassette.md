@@ -1,3 +1,3 @@
 #  Cassette
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="Cassette"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="Cassette"></api-schema>

@@ -4,4 +4,4 @@ Fill events are generated whenever a technician fills the dispenser's cassettes 
 
 A fill can also be a "balance" where the technician first removes all cash from the dispenser in order to recount it.
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="FillEvent"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="FillEvent"></api-schema>

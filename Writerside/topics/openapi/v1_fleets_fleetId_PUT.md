@@ -2,4 +2,4 @@
 
 Update the name of a fleet
 
-<api-endpoint openapi-path="../../../tsp-output/schema/openapi.yaml" method="PUT" endpoint="/v1/fleets/{fleetId}"></api-endpoint>
+<api-endpoint openapi-path="../../openapi.yaml" method="PUT" endpoint="/v1/fleets/{fleetId}"></api-endpoint>

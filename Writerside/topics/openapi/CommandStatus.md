@@ -1,3 +1,3 @@
 #  CommandStatus
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="CommandStatus"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="CommandStatus"></api-schema>

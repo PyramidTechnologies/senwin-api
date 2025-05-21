@@ -10,4 +10,4 @@ while dispenser is initializing
 
 **Restart** - restarts the kiosk via the OS
 
-<api-schema openapi-path="../../../tsp-output/schema/openapi.yaml" name="CommandRequest"></api-schema>
+<api-schema openapi-path="../../openapi.yaml" name="CommandRequest"></api-schema>
