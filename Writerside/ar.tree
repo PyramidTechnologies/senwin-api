@@ -5,6 +5,11 @@
 <instance-profile id="ar"
                   name="API Reference" start-page="API_Reference.md">
 
+    <toc-element topic="Events.md">
+        <toc-element topic="Setup.md" />
+        <toc-element topic="Sandbox.md" />
+    </toc-element>
+
     <toc-element topic="API_Reference.md">
         <toc-element topic="Schemas.md">
             <toc-element topic="RedemptionStatus.md"/>

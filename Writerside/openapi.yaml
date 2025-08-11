@@ -3,6 +3,19 @@ info:
   title: SenWin
   version: 0.0.0
 tags: []
+
+webhooks:
+    newRedemption:
+        post:
+          description: A ticket was redeemed by at a kiosk.
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Event'
+        responses:
+          '200':
+            description: Event received
 paths:
   /v1/devices/{deviceId}:
     get:
@@ -184,8 +197,6 @@ paths:
                       $ref: '#/components/schemas/DispenseEvent'
                   nextCursor:
                     type: string
-                required:
-                  - items
         '400':
           description: The server could not understand the request due to invalid syntax.
           content:
@@ -1253,7 +1264,7 @@ components:
         - device_id
         - start
         - end
-        - totalRedeemed
+        - total_redeemed
         - totalDue
       properties:
         device_id:
@@ -1265,12 +1276,12 @@ components:
         end:
           type: string
           format: date-time
-        totalRedeemed:
+        total_redeemed:
           type: integer
           format: int32
           description: Total amount redeemed during the period, in cents
           example: 225900
-        totalDue:
+        total_due:
           type: integer
           format: int32
           description: Total amount of incomplete payouts during the period, in cents
@@ -1325,6 +1336,73 @@ components:
         - redeemed
         - duplicate
         - expired
+    Event:
+      type: object
+      required:
+        - correlationId
+        - deviceId
+        - type
+        - version
+      properties:
+        correlationId:
+          type: string
+        deviceId:
+          type: string
+        type:
+          type: string
+        version:
+          type: integer
+      discriminator:
+        propertyName: type
+      mapping:
+        Redemption: '#/components/schemas/RedemptionEventData'
+        DispenseEvent: '#/components/schemas/DispenseEventData'
+        FillEvent: '#/components/schemas/FillEventData'
+        LoginEvent: '#/components/schemas/LoginEventData'
+        PeriodReport: '#/components/schemas/PeriodReportEventData'
+    RedemptionEventData:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/Redemption'
+    DispenseEventData:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/DispenseEvent'
+    FillEventData:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/FillEvent'
+    LoginEventData:
+      allOf:
+        - $ref: '#/components/schemas/Event'
+        - type: object
+          required:
+          - data
+          properties:
+            data:
+              $ref: '#/components/schemas/LoginEvent'
+    PeriodReportEventData:
+      type: object
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+        data:
+          $ref: '#/components/schemas/PeriodReport'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
