@@ -32,7 +32,6 @@ webhooks:
                 amountDue: 0
                 hash: "asb58439baksjd1"
                 printer: "1100001123"
-
 paths:
   /pair:
     post:
@@ -42,11 +41,8 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                pairingCode:
-                  type: string
-                  description: "8 digit pairing code displayed on the device or received from creating a sandbox device"
+              $ref: '#/components/schemas/PairingRequest'
+
   /devices/{deviceId}/commands:
     post:
       operationId: sendCommand
@@ -64,19 +60,19 @@ paths:
               $ref: "#/components/schemas/CommandRequest"
       responses:
         "200":
-          description: "Command sent successfully"
+          description: Command sent successfully
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CommandStatus"
         "404":
-          description: "Device not found"
+          description: Device not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
         "500":
-          description: "Server error"
+          description: Server error
           content:
             application/json:
               schema:
@@ -91,18 +87,18 @@ paths:
           required: true
           schema:
             type: string
-            description: "ID of the device the command was sent to"
+            description: ID of the device the command was sent to
         - in: path
           name: commandId
           required: true
           schema:
             type: string
-            description: "ID of the command to cancel"
+            description: ID of the command to cancel
       responses:
         "204":
-          description: "Command cancelled, no content"
+          description: Command cancelled, no content
         "404":
-          description: "Device or command not found"
+          description: Device or command not found
           content:
             application/json:
               schema:
@@ -133,7 +129,7 @@ paths:
                 properties:
                   webhookSecret:
                     type: string
-                    description: "Secret key for checking HMAC SHA-256 signature of events"
+                    description: Secret key for checking HMAC SHA-256 signature of events
         "400":
           description: Invalid request body
           content:
@@ -172,7 +168,7 @@ paths:
           schema:
             type: string
       operationId: updateWebhook
-      description: "Updates any non-empty fields, optionally rolls the secret"
+      description: Updates any non-empty fields, optionally rolls the secret
       requestBody:
         required: true
         content:
@@ -189,7 +185,7 @@ paths:
                 properties:
                   webhookSecret:
                     type: string
-                    description: "Secret key for checking HMAC SHA-256 signature of events"
+                    description: Secret key for checking HMAC SHA-256 signature of events
         "204":
           description: Webhook created successfully, no content
         "400":
@@ -212,7 +208,7 @@ paths:
           schema:
             type: string
       operationId: removeWebhook
-      description: "Removes an endpoint"
+      description: Removes an endpoint
       responses:
         "204":
           description: Webhook removed, no content
@@ -285,15 +281,15 @@ paths:
               $ref: "#/components/schemas/EventRequest"
       responses:
         "204":
-          description: "Event generated, no content"
+          description: Event generated, no content
         "400":
-          description: "Invalid request"
+          description: Invalid request
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
         "500":
-          description: "Server error"
+          description: Server error
           content:
             application/json:
               schema:
@@ -309,9 +305,26 @@ components:
       in: header
       name: X-API-KEY
   schemas:
+    PairingRequest:
+      type: object
+      required:
+        - pairingCode
+      properties:
+        pairingCode:
+          type: string
+          length: 8
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Optional metadata to include with events coming from this device
+      example:
+        pairingCode: '12345678'
+        metadata:
+          userId: 'user123'
     Redemption:
       type: object
-      description: "Represents an attempt to redeem a Sentry ticket"
+      description: Represents an attempt to redeem a Sentry ticket
       required:
         - redeemedAt
         - status
@@ -323,26 +336,26 @@ components:
         redeemedAt:
           type: integer
           format: int64
-          description: "Time the ticket was validated (unix, s)"
+          description: Time the ticket was validated (unix, s)
         createdAt:
           type: integer
           format: int64
-          description: "Optional, time the ticket was printed, only available on some printers (unix, s)"
+          description: Optional, time the ticket was printed, only available on some printers (unix, s)
         status:
           $ref: "#/components/schemas/RedemptionStatus"
         amount:
           type: integer
-          description: "Value of the ticket, in cents"
+          description: Value of the ticket, in cents
         amountDue:
           type: integer
-          description: "Amount that still needs to be paid out, in cents"
+          description: Amount that still needs to be paid out, in cents
         hash:
           type: string
-          description: "Used by the kiosk to check for duplicates"
+          description: Used by the kiosk to check for duplicates
         printer:
           type: string
           length: 9
-          description: "Serial number of the printer that printed the ticket"
+          description: Serial number of the printer that printed the ticket
     RedemptionStatus:
       type: string
       enum:
@@ -351,7 +364,7 @@ components:
         - expired
     AccountingPeriod:
       type: object
-      description: "Represents a date range for accounting purposes, each period starts at the end of the previous period. Operators manually end the period, e.g., at the end of each 8-hour shift"
+      description: Represents a date range for accounting purposes, each period starts at the end of the previous period. Operators manually end the period, e.g., at the end of each 8-hour shift
       required:
         - start
         - end
@@ -361,20 +374,20 @@ components:
         start:
           type: integer
           format: int64
-          description: "End of the previous period (unix, s)"
+          description: End of the previous period (unix, s)
         end:
           type: integer
           format: int64
-          description: "Time the user ended this period (unix, s)"
+          description: Time the user ended this period (unix, s)
         totalRedeemed:
           type: integer
-          description: "Total amount redeemed during the period, in cents"
+          description: Total amount redeemed during the period, in cents
         totalDue:
           type: integer
-          description: "Total amount of incomplete payouts during the period, in cents"
+          description: Total amount of incomplete payouts during the period, in cents
     Fill:
       type: object
-      description: "Reported when a technician adds (or balances) bills to the dispenser. Arrays represent the cassettes in the dispenser, ordered top to bottom."
+      description: Reported when a technician adds (or balances) bills to the dispenser. Arrays represent the cassettes in the dispenser, ordered top to bottom.
       required:
         - filledAt
         - denominations
@@ -391,34 +404,34 @@ components:
           items:
             type: integer
             format: int16
-          description: "Denomination configured for each cassette"
+          description: Denomination configured for each cassette
         remainingCounts:
           type: array
           items:
             type: integer
             format: 16
-          description: "Bills remaining in the dispenser prior to the fill"
+          description: Bills remaining in the dispenser prior to the fill
         newCounts:
           type: array
           items:
             type: integer
             format: 16
-          description: "Current counts in the dispenser, after completing the fill"
+          description: Current counts in the dispenser, after completing the fill
         dispensedCounts:
           type: array
           items:
             type: integer
             format: 16
-          description: "Number of bills dispensed from each cassette since the last fill"
+          description: Number of bills dispensed from each cassette since the last fill
         rejectedCounts:
           type: array
           items:
             type: integer
             format: 16
-          description: "Number of bills rejected from each cassette since the last fill"
+          description: Number of bills rejected from each cassette since the last fill
     DispenserStatus:
       type: object
-      description: "Notifies changes to the state of the dispenser, jams, dispenses, etc."
+      description: Notifies changes to the state of the dispenser, jams, dispenses, etc.
       required:
         - cassettes
         - reportType
@@ -431,9 +444,9 @@ components:
           $ref: "#/components/schemas/DispenserReportType"
         message:
           type: string
-          description: "Optional message describing the status, e.g. an error code if the dipsenser jammed"
+          description: Optional message describing the status, e.g. an error code if the dispenser jammed
     DispenserReportType:
-      description: "Reason the status was updated, primarily just used internally"
+      description: Reason the status was updated, primarily just used internally
       type: integer
       enum:
         - 0
@@ -462,7 +475,7 @@ components:
           example: 31
     Login:
       type: object
-      description: "Represents an attempt to login to the service screen on the kiosk"
+      description: Represents an attempt to login to the service screen on the kiosk
       required:
         - attemptedAt
         - user
@@ -473,15 +486,15 @@ components:
           type: integer
           format: int64
           example: 1755026365
-          description: "Time the user logged in or attempted to (unix, s)"
+          description: Time the user logged in or attempted to (unix, s)
         user:
           type: string
           example: ADMIN
-          description: "Placeholder for future use, ADMIN or TECHNICIAN"
+          description: Placeholder for future use, ADMIN or TECHNICIAN
         loggedIn:
           type: boolean
           example: true
-          description: "Whether the login attempt was successful or not"
+          description: Whether the login attempt was successful or not
         failedAttempts:
           type: integer
     CommandRequest:
@@ -493,10 +506,10 @@ components:
           $ref: "#/components/schemas/CommandType"
         scheduledFor:
           type: date-time
-          description: "UTC datetime to run the command at (best effort, will run at or after this time)"
+          description: UTC datetime to run the command at (best effort, will run at or after this time)
         expiresAt:
           type: date-time
-          description: "UTC datetime that te command should automatically cancel, especially useful when marking a kiosk out of service"
+          description: UTC datetime that te command should automatically cancel, especially useful when marking a kiosk out of service
     CommandStatus:
       type: object
       required:
@@ -506,10 +519,10 @@ components:
       properties:
         id:
           type: string
-          description: "ID of the command"
+          description: ID of the command
         status:
           type: string
-          description: "Current status of the command, as reported by the kiosk"
+          description: Current status of the command, as reported by the kiosk
           enum:
             - pending
             - success
@@ -518,7 +531,7 @@ components:
         completedAt:
           type: integer
           format: int64
-          description: "Time the kiosk processed the command (unix, s)"
+          description: Time the kiosk processed the command (unix, s)
     CommandType:
       type: string
       description: |
@@ -533,7 +546,7 @@ components:
         - resetDispenser
     DeviceShadow:
       type: object
-      description: "Describes state that can be modified by both the server and the device (more of a placeholder now)"
+      description: Describes state that can be modified by both the server and the device (more of a placeholder now)
       properties:
         isOutOfService:
           type: boolean
@@ -563,6 +576,11 @@ components:
         version:
           type: integer
           description: "Version of the event schema, reserved in the event a breaking changes needs to be made on the client side"
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: 'Metadata that was attached to this device when it was paired'
       discriminator:
         propertyName: type
       mapping:
@@ -619,13 +637,13 @@ components:
       properties:
         endpoint:
           type: string
-          description: "API endpoint to send events to"
+          description: API endpoint to send events to
         description:
           type: string
-          description: "Optional description"
+          description: Optional description
         rollSecret:
           type: boolean
-          description: "True to generate a new signature key / secret when updating an endpoint"
+          description: True to generate a new signature key / secret when updating an endpoint
     Error:
       type: object
       required:
@@ -638,13 +656,13 @@ components:
       properties:
         name:
           type: string
-          description: "Optional name for this device"
+          description: Optional name for this device
         pairAutomatically:
           type: boolean
-          description: "True to pair this device to your account immediately. False to receive a pairing code to manually pair the device."
+          description: True to pair this device to your account immediately. False to receive a pairing code to manually pair the device.
     SandboxDevice:
       type: object
-      description: "Fake device used for testing events"
+      description: Fake device used for testing events
       required:
         - deviceId
       properties:
@@ -652,25 +670,25 @@ components:
           type: string
         pairingCode:
           type: string
-          description: "Pairing code to send to /pair. Omitted if you chose pair automatically"
+          description: Pairing code to send to /pair. Omitted if you chose pair automatically
           example: '01234567'
         expiresAt:
           type: date-time
-          description: "Time the pairing code expires. Omitted if you chose pair automatically"
+          description: Time the pairing code expires. Omitted if you chose pair automatically
           example: '2025-08-14T09:12:28Z'
     EventRequest:
       type: object
-      description: "Request to generate an event for testing. You may either specify just the type to generate random data, or include the specific data you want sent"
+      description: Request to generate an event for testing. You may either specify just the type to generate random data, or include the specific data you want sent
       required:
         - deviceId
         - type
       properties:
         deviceId:
           type: string
-          description: "Device to send the event from"
+          description: Device to send the event from
         type:
           type: string
-          description: "Type name of the event to generate"
+          description: Type name of the event to generate
         discriminator:
           propertyName: type
         mapping:
@@ -681,7 +699,7 @@ components:
           PeriodReport: "#/components/schemas/AccountingPeriodEvent"
     Destination:
       type: object
-      description: "Endpoint destination that receives events"
+      description: Endpoint destination that receives events
       properties:
         destinationId:
           type: string
@@ -691,4 +709,4 @@ components:
           type: string
         signatureKey:
           type: string
-          description: "Secret/key to validate the Sentry-Signature header"
+          description: Private key to validate the Sentry-Signature header
