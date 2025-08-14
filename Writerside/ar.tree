@@ -3,7 +3,7 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
 <instance-profile id="ar"
-                  name="API Reference" start-page="API_Reference.md">
+                  name="API Reference" start-page="API_Reference3.md">
 
     <toc-element topic="API_Reference3.md">
         <toc-element topic="Events.md">
@@ -20,8 +20,8 @@
         <toc-element topic="Schemas2.md">
             <toc-element toc-title="Events">
                 <toc-element topic="Event.md"/>
-                <toc-element topic="CommandStatus.md">
-                    <toc-element topic="CommandType.md"/>
+                <toc-element topic="CommandStatus2.md">
+                    <toc-element topic="CommandType2.md"/>
                 </toc-element>
                 <toc-element topic="Redemption.md">
                     <toc-element topic="RedemptionStatus.md"/>
