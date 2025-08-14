@@ -5,58 +5,48 @@
 <instance-profile id="ar"
                   name="API Reference" start-page="API_Reference.md">
 
-    <toc-element topic="API_Reference.md">
-        <toc-element topic="Schemas.md">
-            <toc-element topic="RedemptionStatus.md"/>
-            <toc-element topic="Redemption.md"/>
-            <toc-element topic="PeriodReport.md"/>
-            <toc-element topic="PairingRequest.md"/>
-            <toc-element topic="LoginEvent.md"/>
-            <toc-element topic="Fleet.md"/>
-            <toc-element topic="FillEvent.md"/>
-            <toc-element topic="Error.md"/>
-            <toc-element topic="DispenseEvent.md"/>
-            <toc-element topic="DispenseError.md"/>
-            <toc-element topic="DeviceStatus.md"/>
-            <toc-element topic="Device.md"/>
-            <toc-element topic="CommandType.md"/>
-            <toc-element topic="CommandStatus.md"/>
-            <toc-element topic="CommandResponse.md"/>
+    <toc-element topic="API_Reference3.md">
+        <toc-element topic="Events.md">
+            <toc-element topic="Sandbox.md">
+                <toc-element topic="sandbox_devices_POST.md"/>
+                <toc-element topic="sandbox_devices_deviceId_DELETE.md"/>
+                <toc-element topic="sandbox_events_POST.md"/>
+            </toc-element>
+            <toc-element topic="webhooks_webhookId_DELETE.md"/>
+            <toc-element topic="webhooks_webhookId_PUT.md"/>
+            <toc-element topic="webhooks_POST.md"/>
+            <toc-element topic="webhooks_GET.md"/>
+        </toc-element>
+        <toc-element topic="Schemas2.md">
+            <toc-element toc-title="Events">
+                <toc-element topic="Event.md"/>
+                <toc-element topic="CommandStatus.md">
+                    <toc-element topic="CommandType.md"/>
+                </toc-element>
+                <toc-element topic="Redemption.md">
+                    <toc-element topic="RedemptionStatus.md"/>
+                </toc-element>
+                <toc-element topic="DispenserStatus.md">
+                    <toc-element topic="DispenserReportType.md"/>
+                </toc-element>
+                <toc-element topic="Fill.md"/>
+                <toc-element topic="PeriodReport.md"/>
+                <toc-element topic="LoginEvent.md"/>
+                <toc-element topic="DeviceShadow.md"/>
+            </toc-element>
+            <toc-element topic="Destination.md"/>
+            <toc-element topic="EventRequest.md"/>
+            <toc-element topic="SandboxDevice.md"/>
+            <toc-element topic="SandboxDeviceRequest.md"/>
+            <toc-element topic="WebhookRequest.md"/>
             <toc-element topic="CommandRequest.md"/>
-            <toc-element topic="Command.md"/>
-            <toc-element topic="CassetteFill.md"/>
-            <toc-element topic="CassetteDispense.md"/>
             <toc-element topic="Cassette.md"/>
+            <toc-element topic="Error2.md"/>
         </toc-element>
-        <toc-element toc-title="Fleets">
-            <toc-element topic="v1_fleets_fleetId_devices_POST.md"/>
-            <toc-element topic="v1_fleets_GET.md"/>
-            <toc-element topic="v1_fleets_POST.md"/>
-            <toc-element topic="v1_fleets_fleetId_GET.md"/>
-            <toc-element topic="v1_fleets_fleetId_PUT.md"/>
-            <toc-element topic="v1_fleets_fleetId_DELETE.md"/>
-            <toc-element topic="v1_fleets_fleetId_devices_GET.md"/>
-            <toc-element toc-title="Reports">
-                <toc-element topic="v1_fleets_fleetId_fills_GET.md"/>
-                <toc-element topic="v1_fleets_fleetId_periods_GET.md"/>
-                <toc-element topic="v1_fleets_fleetId_redemptions_GET.md"/>
-            </toc-element>
-        </toc-element>
-        <toc-element toc-title="Devices">
-            <toc-element topic="v1_devices_deviceId_GET.md"/>
-            <toc-element topic="v1_devices_deviceId_PUT.md"/>
-            <toc-element topic="v1_devices_deviceId_DELETE.md"/>
-            <toc-element toc-title="Reports">
-                <toc-element topic="v1_devices_deviceId_dispenses_GET.md"/>
-                <toc-element topic="v1_devices_deviceId_fills_GET.md"/>
-                <toc-element topic="v1_devices_deviceId_logins_GET.md"/>
-                <toc-element topic="v1_devices_deviceId_periods_GET.md"/>
-                <toc-element topic="v1_devices_deviceId_redemptions_GET.md"/>
-            </toc-element>
-            <toc-element toc-title="Commands">
-                <toc-element topic="v1_devices_deviceId_commandId_GET.md"/>
-                <toc-element topic="v1_devices_deviceId_commandId_DELETE.md"/>
-            </toc-element>
-        </toc-element>
+    </toc-element>
+    <toc-element toc-title="Routes">
+        <toc-element topic="pair_POST.md"/>
+        <toc-element topic="devices_deviceId_commands_POST.md"/>
+        <toc-element topic="devices_deviceId_commands_commandId_DELETE.md"/>
     </toc-element>
 </instance-profile>

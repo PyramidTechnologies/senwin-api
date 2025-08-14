@@ -3,1330 +3,692 @@ info:
   title: SenWin
   version: 0.0.0
 tags: []
-paths:
-  /v1/devices/{deviceId}:
-    get:
-      operationId: Devices_getDevice
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Device'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    put:
-      operationId: Devices_updateDeviceName
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Device name has been updated.
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-    delete:
-      operationId: Devices_removeDevice
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The device has been removed.
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+
+webhooks:
+  newEvent:
     post:
-      operationId: Commands_sendCommand
+      description: A ticket was redeemed by at a kiosk.
       parameters:
-        - name: deviceId
-          in: path
+        - in: header
+          name: Sentry-Signature
           required: true
           schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The command was successfully sent to the device.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CommandResponse'
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+            type: string
+            description: "HMAC-SHA256 of the request body"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+            example:
+              correlationId: "ABCDEFG12345"
+              deviceId: "80DEF45C"
+              type: "Redemption"
+              version: 1
+              data:
+                redeemedAt: 1755191889
+                status: "redeemed"
+                amount: 50000
+                amountDue: 0
+                hash: "asb58439baksjd1"
+                printer: "1100001123"
+
+paths:
+  /pair:
+    post:
+      operationId: pairDevice
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CommandRequest'
-  /v1/devices/{deviceId}/dispenses:
-    get:
-      operationId: Dispenses_getDispenses
+              type: object
+              properties:
+                pairingCode:
+                  type: string
+                  description: "8 digit pairing code displayed on the device or received from creating a sandbox device"
+  /devices/{deviceId}/commands:
+    post:
+      operationId: sendCommand
       parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/DispenseEvent'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/devices/{deviceId}/fills:
-    get:
-      operationId: Fills_getFills
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/FillEvent'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/devices/{deviceId}/logins:
-    get:
-      operationId: Logins_getLogins
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/LoginEvent'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/devices/{deviceId}/periods:
-    get:
-      operationId: Periods_getPeriods
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PeriodReport'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/devices/{deviceId}/redemptions:
-    get:
-      operationId: Redemptions_getRedemptions
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Redemption'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/devices/{deviceId}/{commandId}:
-    get:
-      operationId: Commands_getCommandStatus
-      parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: commandId
-          in: path
+        - in: path
+          name: deviceId
           required: true
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandRequest"
       responses:
-        '200':
-          description: The request has succeeded.
+        "200":
+          description: "Command sent successfully"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Command'
-        '400':
-          description: The server could not understand the request due to invalid syntax.
+                $ref: "#/components/schemas/CommandStatus"
+        "404":
+          description: "Device not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Server error"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
+
+  /devices/{deviceId}/commands/{commandId}:
     delete:
-      operationId: Commands_cancelCommand
+      operationId: cancelCommand
       parameters:
-        - name: deviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: commandId
-          in: path
+        - in: path
+          name: deviceId
           required: true
           schema:
             type: string
+            description: "ID of the device the command was sent to"
+        - in: path
+          name: commandId
+          required: true
+          schema:
+            type: string
+            description: "ID of the command to cancel"
       responses:
-        '200':
-          description: The command was successfully canceled.
-        '400':
-          description: The server could not understand the request due to invalid syntax.
+        "204":
+          description: "Command cancelled, no content"
+        "404":
+          description: "Device or command not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Server error"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
+                $ref: "#/components/schemas/Error"
+
+  /webhooks:
+    post:
+      operationId: createWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookRequest"
+      responses:
+        "200":
+          description: Webhook was created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                type: object
+                properties:
+                  webhookSecret:
+                    type: string
+                    description: "Secret key for checking HMAC SHA-256 signature of events"
+        "400":
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-  /v1/fleets:
+                $ref: "#/components/schemas/Error"
     get:
-      operationId: Fleets_getFleets
-      parameters: []
+      operationId: listWebhooks
       responses:
-        '200':
-          description: The request has succeeded.
+        "200":
+          description: List of existing webhook endpoints
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Fleet'
-        '401':
-          description: Access is unauthorized.
+                  $ref: "#/components/schemas/Destination"
+        "500":
+          description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      operationId: Fleets_createFleet
-      parameters: []
-      responses:
-        '201':
-          description: The request has succeeded and a new resource has been created as a result.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Fleet'
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-  /v1/fleets/{fleetId}:
-    get:
-      operationId: Fleets_getFleet
-      parameters:
-        - name: fleetId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Fleet'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
+  /webhooks/{webhookId}:
     put:
-      operationId: Fleets_updateFleet
       parameters:
-        - name: fleetId
+        - name: webhookId
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Fleet'
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-    delete:
-      operationId: Fleets_deleteFleet
-      parameters:
-        - name: fleetId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: 'There is no content to send for this request, but the headers may be useful. '
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /v1/fleets/{fleetId}/devices:
-    get:
-      operationId: Devices_getDevices
-      parameters:
-        - name: fleetId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/PagingParams'
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Device'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      operationId: Devices_pairDevice
-      parameters:
-        - name: fleetId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '201':
-          description: The request has succeeded and a new resource has been created as a result.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Device'
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+            type: string
+      operationId: updateWebhook
+      description: "Updates any non-empty fields, optionally rolls the secret"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PairingRequest'
-  /v1/fleets/{fleetId}/fills:
-    get:
-      operationId: Fills_getFills
-      parameters:
-        - name: fleetId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
+              $ref: "#/components/schemas/WebhookRequest"
       responses:
-        '200':
-          description: The request has succeeded.
+        "200":
+          description: Webhook was updated successfully, new secret created
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/FillEvent'
-                  nextCursor:
+                  webhookSecret:
                     type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
+                    description: "Secret key for checking HMAC SHA-256 signature of events"
+        "204":
+          description: Webhook created successfully, no content
+        "400":
+          description: Invalid request body
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-  /v1/fleets/{fleetId}/periods:
-    get:
-      operationId: Periods_getPeriods
+                $ref: "#/components/schemas/Error"
+    delete:
       parameters:
-        - name: fleetId
+        - name: webhookId
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
+            type: string
+      operationId: removeWebhook
+      description: "Removes an endpoint"
       responses:
-        '200':
-          description: The request has succeeded.
+        "204":
+          description: Webhook removed, no content
+        "400":
+          description: Invalid request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PeriodReport'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-  /v1/fleets/{fleetId}/redemptions:
-    get:
-      operationId: Redemptions_getRedemptions
+                $ref: "#/components/schemas/Error"
+  /sandbox/devices:
+    post:
+      operationId: createSandboxDevice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SandboxDeviceRequest"
+      responses:
+        "200":
+          description: Device created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SandboxDevice"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sandbox/devices/{deviceId}:
+    delete:
+      operationId: removeSandboxDevice
       parameters:
-        - name: fleetId
+        - name: deviceId
           in: path
           required: true
           schema:
-            type: integer
-            format: int64
-        - $ref: '#/components/parameters/DateRangeParams.startDate'
-        - $ref: '#/components/parameters/DateRangeParams.endDate'
-        - $ref: '#/components/parameters/PagingParams'
+            type: string
+      description: Delete a sandbox device
       responses:
-        '200':
-          description: The request has succeeded.
+        "204":
+          description: Device removed, no content
+        "400":
+          description: Invalid request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Redemption'
-                  nextCursor:
-                    type: string
-                required:
-                  - items
-        '400':
-          description: The server could not understand the request due to invalid syntax.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Access is unauthorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: The server cannot find the requested resource.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
+                $ref: "#/components/schemas/Error"
+        "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
+  /sandbox/events:
+    post:
+      operationId: generateEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventRequest"
+      responses:
+        "204":
+          description: "Event generated, no content"
+        "400":
+          description: "Invalid request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 security:
   - ApiKeyAuth: []
+
 components:
-  parameters:
-    DateRangeParams.endDate:
-      name: endDate
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-      explode: false
-    DateRangeParams.startDate:
-      name: startDate
-      in: query
-      required: false
-      schema:
-        type: string
-        format: date-time
-      explode: false
-    PagingParams:
-      name: cursor
-      in: query
-      required: false
-      schema:
-        type: string
-      explode: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
   schemas:
-    Cassette:
-      type: object
-      required:
-        - denomination
-        - count
-      properties:
-        denomination:
-          type: integer
-          format: int16
-          example: 20
-        count:
-          type: integer
-          format: int16
-          example: 459
-    CassetteDispense:
-      type: object
-      required:
-        - denomination
-        - count
-        - dispensed
-        - rejected
-      properties:
-        denomination:
-          type: integer
-          format: int16
-          example: 5
-        count:
-          type: integer
-          format: int16
-          example: 130
-        dispensed:
-          type: integer
-          format: int16
-          example: 11
-        rejected:
-          type: integer
-          format: int16
-          example: 3
-    CassetteFill:
-      type: object
-      required:
-        - denomination
-        - count
-        - filled
-        - dispensed
-        - rejected
-      properties:
-        denomination:
-          type: integer
-          format: int16
-        count:
-          type: integer
-          format: int16
-          description: Number of bills in the cassette, after the fill
-          example: 300
-        filled:
-          type: integer
-          format: int16
-          description: Number of bills added to the cassette
-          example: 250
-        dispensed:
-          type: integer
-          format: int16
-          description: Number of bills dispensed from the cassette since the last fill
-          example: 230
-        rejected:
-          type: integer
-          format: int16
-          description: Number of bills rejected from the cassette since the last fill
-          example: 20
-    Command:
-      type: object
-      required:
-        - command_id
-        - device_id
-        - command
-        - status
-        - sent_at
-      properties:
-        command_id:
-          type: integer
-          format: int64
-        device_id:
-          type: integer
-          format: int64
-        command:
-          $ref: '#/components/schemas/CommandType'
-        status:
-          $ref: '#/components/schemas/CommandStatus'
-        sent_at:
-          type: string
-          format: date-time
-        scheduled_for:
-          type: string
-          format: date-time
-        expire_after:
-          type: string
-          format: date-time
-    CommandRequest:
-      type: object
-      required:
-        - command
-      properties:
-        command:
-          $ref: '#/components/schemas/CommandType'
-        scheduleFor:
-          type: string
-          format: date-time
-          description: > 
-            The date and time when the command should be executed. 
-            If not provided or the time has already passed, the command will be executed immediately.
-        expireAfter:
-          type: string
-          format: date-time
-          description: >
-            The date and time when the command will expire. 
-            If not provided, the command will not expire.
-            Must be in the future.
-    CommandResponse:
-      type: object
-      required:
-        - command_id
-        - device_id
-      properties:
-        command_id:
-          type: integer
-          format: int64
-        device_id:
-          type: integer
-          format: int64
-    CommandStatus:
-      type: string
-      enum:
-        - pending
-        - success
-        - failed
-        - canceled
-    CommandType:
-      type: string
-      enum:
-        - outOfService
-        - restart
-        - resetDispenser
-    Device:
-      type: object
-      required:
-        - id
-        - fleet_id
-        - serial_number
-        - status
-        - last_seen
-        - app_version
-        - cassettes
-      properties:
-        id:
-          type: integer
-          format: int64
-        fleet_id:
-          type: integer
-          format: int64
-        serial_number:
-          type: string
-          minLength: 8
-          maxLength: 32
-          description: Serial number of the Sentry dongle licensing this kiosk
-          example: '80842C0D'
-        status:
-          $ref: '#/components/schemas/DeviceStatus'
-        last_seen:
-          type: string
-          format: date-time
-        app_version:
-          type: string
-          description: Current SenWin version installed on the kiosk (semver)
-          example: v1.2.1
-        status_message:
-          type: string
-          example: 'Error: dispenser jammed with code CX-18'
-        nickname:
-          type: string
-          example: 'Gas Station #1'
-        cassettes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Cassette'
-    DeviceStatus:
-      type: string
-      enum:
-        - okay
-        - low
-        - empty
-    DispenseError:
-      type: string
-      enum:
-        - none
-        - outOfBills
-        - jammed
-        - error
-    DispenseEvent:
-      type: object
-      required:
-        - id
-        - device_id
-        - timestamp
-        - cassettes
-        - error
-      properties:
-        id:
-          type: integer
-          format: int64
-        device_id:
-          type: integer
-          format: int64
-        timestamp:
-          type: string
-          format: date-time
-        cassettes:
-          type: array
-          items:
-            $ref: '#/components/schemas/CassetteDispense'
-        error:
-          $ref: '#/components/schemas/DispenseError'
-        error_message:
-          type: string
-          description: Description of the error or relevant error codes, if any
-    Error:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-    FillEvent:
-      type: object
-      required:
-        - id
-        - device_id
-        - filled_at
-        - cassettes
-      properties:
-        id:
-          type: integer
-          format: int64
-        device_id:
-          type: integer
-          format: int64
-        filled_at:
-          type: string
-          format: date-time
-        cassettes:
-          type: array
-          items:
-            $ref: '#/components/schemas/CassetteFill'
-    Fleet:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-          example: Pyramid Technologies
-    LoginEvent:
-      type: object
-      required:
-        - id
-        - device_id
-        - failed_attempts
-        - attempted_at
-        - user
-        - logged_in
-      properties:
-        id:
-          type: integer
-          format: int64
-        device_id:
-          type: integer
-          format: int64
-        failed_attempts:
-          type: integer
-          format: int8
-          example: 2
-          description: Number of times an incorrect PIN was entered
-        attempted_at:
-          type: string
-          format: date-time
-          description: Date and time of the login attempt
-        user:
-          type: string
-          description: User who attempted to log in, ADMIN or USER as of SenWin 1.2.1.
-          example: ADMIN
-        logged_in:
-          type: boolean
-          example: true
-          description: Whether the login attempt was successful
-    PairingRequest:
-      type: object
-      required:
-        - pairing_code
-      properties:
-        pairing_code:
-          type: string
-          length: 8
-          description: The 8-digit pairing code generated by the device
-          example: 45670123
-    PeriodReport:
-      type: object
-      required:
-        - device_id
-        - start
-        - end
-        - totalRedeemed
-        - totalDue
-      properties:
-        device_id:
-          type: integer
-          format: int64
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        totalRedeemed:
-          type: integer
-          format: int32
-          description: Total amount redeemed during the period, in cents
-          example: 225900
-        totalDue:
-          type: integer
-          format: int32
-          description: Total amount of incomplete payouts during the period, in cents
-          example: 5100
     Redemption:
       type: object
+      description: "Represents an attempt to redeem a Sentry ticket"
       required:
-        - id
-        - device_id
-        - amount
-        - time_in
-        - redeemed_at
-        - created_at
-        - hash
-        - printer_serial
+        - redeemedAt
         - status
+        - amount
+        - amountDue
+        - hash
+        - printer
       properties:
-        id:
+        redeemedAt:
           type: integer
           format: int64
-        device_id:
+          description: "Time the ticket was validated (unix, s)"
+        createdAt:
           type: integer
           format: int64
+          description: "Optional, time the ticket was printed, only available on some printers (unix, s)"
+        status:
+          $ref: "#/components/schemas/RedemptionStatus"
         amount:
           type: integer
-          format: int32
-          description: 'Amount the ticket is worth, in cents. ($1.00 -> 100)'
-          example: 2500
-        time_in:
-          type: string
-          format: date-time
-          description: Date and time the database record was created
-        redeemed_at:
-          type: string
-          format: date-time
-          description: Date and time the ticket was validated
-        created_at:
-          type: string
-          format: date-time
-          description: Date and time the ticket was printed
+          description: "Value of the ticket, in cents"
+        amountDue:
+          type: integer
+          description: "Amount that still needs to be paid out, in cents"
         hash:
           type: string
-        printer_serial:
+          description: "Used by the kiosk to check for duplicates"
+        printer:
           type: string
           length: 9
-          description: Serial number of the printer that printed the ticket
-        status:
-          $ref: '#/components/schemas/RedemptionStatus'
+          description: "Serial number of the printer that printed the ticket"
     RedemptionStatus:
       type: string
       enum:
         - redeemed
         - duplicate
         - expired
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-Key
+    AccountingPeriod:
+      type: object
+      description: "Represents a date range for accounting purposes, each period starts at the end of the previous period. Operators manually end the period, e.g., at the end of each 8-hour shift"
+      required:
+        - start
+        - end
+        - totalRedeemed
+        - totalDue
+      properties:
+        start:
+          type: integer
+          format: int64
+          description: "End of the previous period (unix, s)"
+        end:
+          type: integer
+          format: int64
+          description: "Time the user ended this period (unix, s)"
+        totalRedeemed:
+          type: integer
+          description: "Total amount redeemed during the period, in cents"
+        totalDue:
+          type: integer
+          description: "Total amount of incomplete payouts during the period, in cents"
+    Fill:
+      type: object
+      description: "Reported when a technician adds (or balances) bills to the dispenser. Arrays represent the cassettes in the dispenser, ordered top to bottom."
+      required:
+        - filledAt
+        - denominations
+        - remainingCounts
+        - rejectedCounts
+        - dispensedCounts
+        - newCounts
+      properties:
+        filledAt:
+          type: integer
+          format: int64
+        denominations:
+          type: array
+          items:
+            type: integer
+            format: int16
+          description: "Denomination configured for each cassette"
+        remainingCounts:
+          type: array
+          items:
+            type: integer
+            format: 16
+          description: "Bills remaining in the dispenser prior to the fill"
+        newCounts:
+          type: array
+          items:
+            type: integer
+            format: 16
+          description: "Current counts in the dispenser, after completing the fill"
+        dispensedCounts:
+          type: array
+          items:
+            type: integer
+            format: 16
+          description: "Number of bills dispensed from each cassette since the last fill"
+        rejectedCounts:
+          type: array
+          items:
+            type: integer
+            format: 16
+          description: "Number of bills rejected from each cassette since the last fill"
+    DispenserStatus:
+      type: object
+      description: "Notifies changes to the state of the dispenser, jams, dispenses, etc."
+      required:
+        - cassettes
+        - reportType
+      properties:
+        cassettes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Cassette"
+        reportType:
+          $ref: "#/components/schemas/DispenserReportType"
+        message:
+          type: string
+          description: "Optional message describing the status, e.g. an error code if the dipsenser jammed"
+    DispenserReportType:
+      description: "Reason the status was updated, primarily just used internally"
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+      x-enum-varnames:
+        - Initialized
+        - Dispensed
+        - Serviced
+        - Error
+        - HealthCheck
+    Cassette:
+      type: object
+      description: Represents a physical cassette in the dispenser, holds 1 denomination of bills
+      required:
+        - denomination
+        - count
+      properties:
+        denomination:
+          type: integer
+          example: 20
+        count:
+          type: integer
+          example: 31
+    Login:
+      type: object
+      description: "Represents an attempt to login to the service screen on the kiosk"
+      required:
+        - attemptedAt
+        - user
+        - loggedIn
+        - failedAttempts
+      properties:
+        attemptedAt:
+          type: integer
+          format: int64
+          example: 1755026365
+          description: "Time the user logged in or attempted to (unix, s)"
+        user:
+          type: string
+          example: ADMIN
+          description: "Placeholder for future use, ADMIN or TECHNICIAN"
+        loggedIn:
+          type: boolean
+          example: true
+          description: "Whether the login attempt was successful or not"
+        failedAttempts:
+          type: integer
+    CommandRequest:
+      type: object
+      required:
+        - command
+      properties:
+        command:
+          $ref: "#/components/schemas/CommandType"
+        scheduledFor:
+          type: date-time
+          description: "UTC datetime to run the command at (best effort, will run at or after this time)"
+        expiresAt:
+          type: date-time
+          description: "UTC datetime that te command should automatically cancel, especially useful when marking a kiosk out of service"
+    CommandStatus:
+      type: object
+      required:
+        - id
+        - status
+        - completedAt
+      properties:
+        id:
+          type: string
+          description: "ID of the command"
+        status:
+          type: string
+          description: "Current status of the command, as reported by the kiosk"
+          enum:
+            - pending
+            - success
+            - failed
+            - canceled
+        completedAt:
+          type: integer
+          format: int64
+          description: "Time the kiosk processed the command (unix, s)"
+    CommandType:
+      type: string
+      description: |
+        Command to run, all commands will wait until no redemptions / user interactions are in progress:
+        
+        * `outOfService` - Displays an out of service screen, prevents redeeming tickets
+        * `restart` - Tells the kiosk to perform a restart via the OS
+        * `resetDispenser` - Sends a reset command to the dispenser, attempts to clear jams and error states
+      enum:
+        - outOfService
+        - restart
+        - resetDispenser
+    DeviceShadow:
+      type: object
+      description: "Describes state that can be modified by both the server and the device (more of a placeholder now)"
+      properties:
+        isOutOfService:
+          type: boolean
+          description: "Flag indicating if the kiosk has been disabled by a command / for maintenance"
+    Event:
+      type: object
+      required:
+        - correlationId
+        - deviceId
+        - type
+        - version
+      properties:
+        correlationId:
+          type: string
+          description: Unique ID for each event, used for logging and deduplication
+        deviceId:
+          type: string
+          anyOf:
+            - length: 8
+              pattern: "[a-zA-Z0-9]{8}"
+            - length: 11
+              pattern: "SB-[a-zA-Z0-9]{8}"
+          description: ID of the device the event came from
+        type:
+          type: string
+          description: Type of event, determines the schema of the data field
+        version:
+          type: integer
+          description: "Version of the event schema, reserved in the event a breaking changes needs to be made on the client side"
+      discriminator:
+        propertyName: type
+      mapping:
+        Redemption: "#/components/schemas/RedemptionEvent"
+        DispenseEvent: "#/components/schemas/DispenseEvent"
+        FillEvent: "#/components/schemas/FillEvent"
+        LoginEvent: "#/components/schemas/LoginEvent"
+        AccountingPeriod: "#/components/schemas/AccountingPeriodEvent"
+    RedemptionEvent:
+      allOf:
+        - $ref: "#/components/schemas/Event"
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/Redemption"
+    DispenserStatusEvent:
+      allOf:
+        - $ref: "#/components/schemas/Event"
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DispenserStatus"
+    FillEvent:
+      allOf:
+        - $ref: "#/components/schemas/Event"
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/Fill"
+    LoginEvent:
+      allOf:
+        - $ref: "#/components/schemas/Event"
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              $ref: "#/components/schemas/Login"
+    AccountingPeriodEvent:
+      type: object
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+        data:
+          $ref: "#/components/schemas/AccountingPeriod"
+    WebhookRequest:
+      type: object
+      properties:
+        endpoint:
+          type: string
+          description: "API endpoint to send events to"
+        description:
+          type: string
+          description: "Optional description"
+        rollSecret:
+          type: boolean
+          description: "True to generate a new signature key / secret when updating an endpoint"
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+    SandboxDeviceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Optional name for this device"
+        pairAutomatically:
+          type: boolean
+          description: "True to pair this device to your account immediately. False to receive a pairing code to manually pair the device."
+    SandboxDevice:
+      type: object
+      description: "Fake device used for testing events"
+      required:
+        - deviceId
+      properties:
+        deviceId:
+          type: string
+        pairingCode:
+          type: string
+          description: "Pairing code to send to /pair. Omitted if you chose pair automatically"
+          example: '01234567'
+        expiresAt:
+          type: date-time
+          description: "Time the pairing code expires. Omitted if you chose pair automatically"
+          example: '2025-08-14T09:12:28Z'
+    EventRequest:
+      type: object
+      description: "Request to generate an event for testing. You may either specify just the type to generate random data, or include the specific data you want sent"
+      required:
+        - deviceId
+        - type
+      properties:
+        deviceId:
+          type: string
+          description: "Device to send the event from"
+        type:
+          type: string
+          description: "Type name of the event to generate"
+        discriminator:
+          propertyName: type
+        mapping:
+          Redemption: "#/components/schemas/RedemptionEvent"
+          DispenseEvent: "#/components/schemas/DispenseEvent"
+          FillEvent: "#/components/schemas/FillEvent"
+          LoginEvent: "#/components/schemas/LoginEvent"
+          PeriodReport: "#/components/schemas/AccountingPeriodEvent"
+    Destination:
+      type: object
+      description: "Endpoint destination that receives events"
+      properties:
+        destinationId:
+          type: string
+        endpoint:
+          type: string
+        description:
+          type: string
+        signatureKey:
+          type: string
+          description: "Secret/key to validate the Sentry-Signature header"

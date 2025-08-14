@@ -14,4 +14,264 @@
         <description>Created after removal of "ForbiddenError" from API Reference</description>
         <accepts>ForbiddenError.html</accepts>
     </rule>
+    <rule id="370d75b3">
+        <description>Created after removal of "Fleet" from API Reference</description>
+        <accepts>Fleet.html</accepts>
+    </rule>
+    <rule id="26b61149">
+        <description>Created after removal of "DispenseError" from API Reference</description>
+        <accepts>DispenseError.html</accepts>
+    </rule>
+    <rule id="378f7c9c">
+        <description>Created after removal of "DeviceStatus" from API Reference</description>
+        <accepts>DeviceStatus.html</accepts>
+    </rule>
+    <rule id="40ac5165">
+        <description>Created after removal of "Device" from API Reference</description>
+        <accepts>Device.html</accepts>
+    </rule>
+    <rule id="15ad44cf">
+        <description>Created after removal of "CommandResponse" from API Reference</description>
+        <accepts>CommandResponse.html</accepts>
+    </rule>
+    <rule id="733bb0c1">
+        <description>Created after removal of "Command" from API Reference</description>
+        <accepts>Command.html</accepts>
+    </rule>
+    <rule id="5d43a6a9">
+        <description>Created after removal of "CassetteFill" from API Reference</description>
+        <accepts>CassetteFill.html</accepts>
+    </rule>
+    <rule id="54a56557">
+        <description>Created after removal of "CassetteDispense" from API Reference</description>
+        <accepts>CassetteDispense.html</accepts>
+    </rule>
+    <rule id="3e8c0376">
+        <description>Created after removal of "PairingRequest" from API Reference</description>
+        <accepts>PairingRequest.html</accepts>
+    </rule>
+    <rule id="25e65528">
+        <description>Created after removal of "Pair Device" from API Reference</description>
+        <accepts>v1_fleets_fleetId_devices_POST.html</accepts>
+    </rule>
+    <rule id="68e49e7b">
+        <description>Created after removal of "/v1/fleets GET" from API Reference</description>
+        <accepts>v1_fleets_GET.html</accepts>
+    </rule>
+    <rule id="71f5fe5">
+        <description>Created after removal of "/v1/fleets POST" from API Reference</description>
+        <accepts>v1_fleets_POST.html</accepts>
+    </rule>
+    <rule id="2db623a3">
+        <description>Created after removal of "/v1/fleets/{fleetId} GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_GET.html</accepts>
+    </rule>
+    <rule id="14375f5f">
+        <description>Created after removal of "/v1/fleets/{fleetId} PUT" from API Reference</description>
+        <accepts>v1_fleets_fleetId_PUT.html</accepts>
+    </rule>
+    <rule id="42582c66">
+        <description>Created after removal of "/v1/fleets/{fleetId} DELETE" from API Reference</description>
+        <accepts>v1_fleets_fleetId_DELETE.html</accepts>
+    </rule>
+    <rule id="7cc12caa">
+        <description>Created after removal of "/v1/fleets/{fleetId}/devices GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_devices_GET.html</accepts>
+    </rule>
+    <rule id="6a36a450">
+        <description>Created after removal of "/v1/fleets/{fleetId}/fills GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_fills_GET.html</accepts>
+    </rule>
+    <rule id="2c2c8133">
+        <description>Created after removal of "/v1/fleets/{fleetId}/periods GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_periods_GET.html</accepts>
+    </rule>
+    <rule id="2b151755">
+        <description>Created after removal of "/v1/fleets/{fleetId}/redemptions GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_redemptions_GET.html</accepts>
+    </rule>
+    <rule id="70897c8b">
+        <description>Created after removal of "/v1/fleets/{fleetId}/fills GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_fills_GET.html</accepts>
+    </rule>
+    <rule id="2ceea116">
+        <description>Created after removal of "/v1/fleets/{fleetId}/periods GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_periods_GET.html</accepts>
+    </rule>
+    <rule id="11b7ccfe">
+        <description>Created after removal of "/v1/fleets/{fleetId}/redemptions GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_redemptions_GET.html</accepts>
+    </rule>
+    <rule id="1014190d">
+        <description>Created after removal of "Pair Device" from API Reference</description>
+        <accepts>v1_fleets_fleetId_devices_POST.html</accepts>
+    </rule>
+    <rule id="7098c6b3">
+        <description>Created after removal of "/v1/fleets GET" from API Reference</description>
+        <accepts>v1_fleets_GET.html</accepts>
+    </rule>
+    <rule id="5480fff2">
+        <description>Created after removal of "/v1/fleets POST" from API Reference</description>
+        <accepts>v1_fleets_POST.html</accepts>
+    </rule>
+    <rule id="767ac360">
+        <description>Created after removal of "/v1/fleets/{fleetId} GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_GET.html</accepts>
+    </rule>
+    <rule id="1913d29e">
+        <description>Created after removal of "/v1/fleets/{fleetId} PUT" from API Reference</description>
+        <accepts>v1_fleets_fleetId_PUT.html</accepts>
+    </rule>
+    <rule id="64f5dc5d">
+        <description>Created after removal of "/v1/fleets/{fleetId} DELETE" from API Reference</description>
+        <accepts>v1_fleets_fleetId_DELETE.html</accepts>
+    </rule>
+    <rule id="290ed7e2">
+        <description>Created after removal of "/v1/fleets/{fleetId}/devices GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_devices_GET.html</accepts>
+    </rule>
+    <rule id="42c45fc5">
+        <description>Created after removal of "/v1/fleets/{fleetId}/fills GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_fills_GET.html</accepts>
+    </rule>
+    <rule id="44dc3946">
+        <description>Created after removal of "/v1/fleets/{fleetId}/periods GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_periods_GET.html</accepts>
+    </rule>
+    <rule id="34caf00e">
+        <description>Created after removal of "/v1/fleets/{fleetId}/redemptions GET" from API Reference</description>
+        <accepts>v1_fleets_fleetId_redemptions_GET.html</accepts>
+    </rule>
+    <rule id="1c90e6b7">
+        <description>Created after removal of "/v1/devices/{deviceId}/redemptions GET" from API Reference</description>
+        <accepts>v1_devices_deviceId_redemptions_GET.html</accepts>
+    </rule>
+    <rule id="1afa4d42">
+        <description>Created after removal of "/v1/devices/{deviceId}/dispenses GET" from API Reference</description>
+        <accepts>v1_devices_deviceId_dispenses_GET.html</accepts>
+    </rule>
+    <rule id="4b1032">
+        <description>Created after removal of "/v1/devices/{deviceId}/fills GET" from API Reference</description>
+        <accepts>v1_devices_deviceId_fills_GET.html</accepts>
+    </rule>
+    <rule id="558f54bd">
+        <description>Created after removal of "/v1/devices/{deviceId}/logins GET" from API Reference</description>
+        <accepts>v1_devices_deviceId_logins_GET.html</accepts>
+    </rule>
+    <rule id="1a537323">
+        <description>Created after removal of "/v1/devices/{deviceId}/periods GET" from API Reference</description>
+        <accepts>v1_devices_deviceId_periods_GET.html</accepts>
+    </rule>
+    <rule id="45e09675">
+        <description>Created after removal of "Device Status" from API Reference</description>
+        <accepts>v1_devices_deviceId_GET.html</accepts>
+    </rule>
+    <rule id="13edeeba">
+        <description>Created after removal of "Set Nickname" from API Reference</description>
+        <accepts>v1_devices_deviceId_PUT.html</accepts>
+    </rule>
+    <rule id="6b479c6e">
+        <description>Created after removal of "Remove Device" from API Reference</description>
+        <accepts>v1_devices_deviceId_DELETE.html</accepts>
+    </rule>
+    <rule id="4e55d334">
+        <description>Created after removal of "Command Status" from API Reference</description>
+        <accepts>v1_devices_deviceId_commandId_GET.html</accepts>
+    </rule>
+    <rule id="477f1bcf">
+        <description>Created after removal of "Cancel Command" from API Reference</description>
+        <accepts>v1_devices_deviceId_commandId_DELETE.html</accepts>
+    </rule>
+    <rule id="618f42ec">
+        <description>Created after removal of "Device Status" from API Reference</description>
+        <accepts>v1_devices_deviceId_GET.html</accepts>
+    </rule>
+    <rule id="1c920b1e">
+        <description>Created after removal of "Set Nickname" from API Reference</description>
+        <accepts>v1_devices_deviceId_PUT.html</accepts>
+    </rule>
+    <rule id="fc80f0d">
+        <description>Created after removal of "Remove Device" from API Reference</description>
+        <accepts>v1_devices_deviceId_DELETE.html</accepts>
+    </rule>
+    <rule id="483209d8">
+        <description>Created after removal of "Redemption" from API Reference</description>
+        <accepts>Redemption2.html</accepts>
+    </rule>
+    <rule id="58910bc8">
+        <description>Created after removal of "CommandType" from API Reference</description>
+        <accepts>CommandType2.html</accepts>
+    </rule>
+    <rule id="28363bec">
+        <description>Created after removal of "CommandRequest" from API Reference</description>
+        <accepts>CommandRequest2.html</accepts>
+    </rule>
+    <rule id="1f72f69c">
+        <description>Created after removal of "CommandStatus" from API Reference</description>
+        <accepts>CommandStatus2.html</accepts>
+    </rule>
+    <rule id="135196d4">
+        <description>Created after removal of "Cassette" from API Reference</description>
+        <accepts>Cassette2.html</accepts>
+    </rule>
+    <rule id="31489123">
+        <description>Created after removal of "AccountingPeriod" from API Reference</description>
+        <accepts>AccountingPeriod.html</accepts>
+    </rule>
+    <rule id="54001f47">
+        <description>Created after removal of "RedemptionStatus" from API Reference</description>
+        <accepts>RedemptionStatus2.html</accepts>
+    </rule>
+    <rule id="216c4c8">
+        <description>Created after removal of "FillEvent" from API Reference</description>
+        <accepts>FillEvent2.html</accepts>
+    </rule>
+    <rule id="50de88c1">
+        <description>Created after removal of "Login" from API Reference</description>
+        <accepts>Login.html</accepts>
+    </rule>
+    <rule id="61c67977">
+        <description>Created after removal of "DispenserStatusEvent" from API Reference</description>
+        <accepts>DispenserStatusEvent.html</accepts>
+    </rule>
+    <rule id="7ddd356">
+        <description>Created after removal of "AccountingPeriodEvent" from API Reference</description>
+        <accepts>AccountingPeriodEvent.html</accepts>
+    </rule>
+    <rule id="3fc2b9a0">
+        <description>Created after removal of "RedemptionEvent" from API Reference</description>
+        <accepts>RedemptionEvent.html</accepts>
+    </rule>
+    <rule id="7a0c41bc">
+        <description>Created after removal of "LoginEvent" from API Reference</description>
+        <accepts>LoginEvent2.html</accepts>
+    </rule>
+    <rule id="4818d9b4">
+        <description>Created after removal of "Error" from API Reference</description>
+        <accepts>Error.html</accepts>
+    </rule>
+    <rule id="3d20e53f">
+        <description>Created after removal of "FillEvent" from API Reference</description>
+        <accepts>FillEvent.html</accepts>
+    </rule>
+    <rule id="108e6d35">
+        <description>Created after removal of "DispenseEvent" from API Reference</description>
+        <accepts>DispenseEvent.html</accepts>
+    </rule>
+    <rule id="522d42e8">
+        <description>Created after removal of "Schemas" from API Reference</description>
+        <accepts>Schemas.html</accepts>
+    </rule>
+    <rule id="fef08cc">
+        <description>Created after removal of "SenWin API Reference" from API Reference</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="b0260d2">
+        <description>Created after removal of "Schemas" from API Reference</description>
+        <accepts>Schemas.html</accepts>
+    </rule>
+    <rule id="214bc352">
+        <description>Created after removal of "Setup" from API Reference</description>
+        <accepts>Setup.html</accepts>
+    </rule>
 </rules>
