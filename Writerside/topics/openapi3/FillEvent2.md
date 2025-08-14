@@ -1,3 +1,3 @@
 #  FillEvent
 
-<api-schema openapi-path="../../openapi.yaml" name="FillEvent"/>
+<api-schema openapi-path="../../resources/openapi.yaml" name="FillEvent"/>

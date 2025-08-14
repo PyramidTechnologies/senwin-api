@@ -1,3 +1,3 @@
 #  /sandbox/events POST
 
-<api-endpoint openapi-path="../../openapi.yaml" method="POST" endpoint="/sandbox/events"/>
+<api-endpoint openapi-path="../../resources/openapi.yaml" method="POST" endpoint="/sandbox/events"/>

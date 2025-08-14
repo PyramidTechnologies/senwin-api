@@ -1,3 +1,3 @@
 #  AccountingPeriod
 
-<api-schema openapi-path="../../openapi.yaml" name="AccountingPeriod"/>
+<api-schema openapi-path="../../resources/openapi.yaml" name="AccountingPeriod"/>

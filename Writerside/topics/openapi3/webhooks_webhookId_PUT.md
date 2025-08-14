@@ -1,3 +1,3 @@
 #  /webhooks/{webhookId} PUT
 
-<api-endpoint openapi-path="../../openapi.yaml" method="PUT" endpoint="/webhooks/{webhookId}"></api-endpoint>
+<api-endpoint openapi-path="../../resources/openapi.yaml" method="PUT" endpoint="/webhooks/{webhookId}"></api-endpoint>

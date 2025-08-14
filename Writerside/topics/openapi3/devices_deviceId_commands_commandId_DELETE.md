@@ -1,3 +1,3 @@
 #  /devices/{deviceId}/commands/{commandId} DELETE
 
-<api-endpoint openapi-path="../../openapi.yaml" method="DELETE" endpoint="/devices/{deviceId}/commands/{commandId}"></api-endpoint>
+<api-endpoint openapi-path="../../resources/openapi.yaml" method="DELETE" endpoint="/devices/{deviceId}/commands/{commandId}"></api-endpoint>

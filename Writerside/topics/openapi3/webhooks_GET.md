@@ -1,3 +1,3 @@
 #  /webhooks GET
 
-<api-endpoint openapi-path="../../openapi.yaml" method="GET" endpoint="/webhooks"></api-endpoint>
+<api-endpoint openapi-path="../../resources/openapi.yaml" method="GET" endpoint="/webhooks"></api-endpoint>

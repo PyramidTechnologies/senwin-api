@@ -1,3 +1,3 @@
 #  DispenserReportType
 
-<api-schema openapi-path="../../openapi.yaml" name="DispenserReportType"/>
+<api-schema openapi-path="../../resources/openapi.yaml" name="DispenserReportType"/>

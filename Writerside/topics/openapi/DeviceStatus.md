@@ -1,3 +1,3 @@
 # DeviceStatus
 
-<api-schema openapi-path="../../openapi.yaml" name="DeviceStatus"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="DeviceStatus"></api-schema>

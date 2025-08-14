@@ -20,5 +20,5 @@ when you added the destination.
 }
 ```
 
-<api-schema openapi-path="../../openapi.yaml" name="Event"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="Event"></api-schema>
 

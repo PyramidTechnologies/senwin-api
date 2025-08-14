@@ -1,3 +1,3 @@
 #  Destination
 
-<api-schema openapi-path="../../openapi.yaml" name="Destination"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="Destination"></api-schema>

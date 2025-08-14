@@ -1,3 +1,3 @@
 #  DeviceShadow
 
-<api-schema openapi-path="../../openapi.yaml" name="DeviceShadow"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="DeviceShadow"></api-schema>

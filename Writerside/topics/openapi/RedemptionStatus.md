@@ -1,3 +1,3 @@
 #  RedemptionStatus
 
-<api-schema openapi-path="../../openapi.yaml" name="RedemptionStatus"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="RedemptionStatus"></api-schema>

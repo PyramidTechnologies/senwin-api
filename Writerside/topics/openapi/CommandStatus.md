@@ -1,3 +1,3 @@
 #  CommandStatus
 
-<api-schema openapi-path="../../openapi.yaml" name="CommandStatus"></api-schema>
+<api-schema openapi-path="../../resources/openapi.yaml" name="CommandStatus"></api-schema>
